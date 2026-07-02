@@ -1,8 +1,8 @@
 package com.sems.semsbackend.controller;
 
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.sems.semsbackend.entity.User;
@@ -18,22 +18,23 @@ public class UserController {
         this.userService = userService;
     }
 
+    // Only SUPER_ADMIN can view all users
     @GetMapping
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/{id}")
-    public Optional<User> getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
-    }
-
+    // Only SUPER_ADMIN can create users
     @PostMapping
-    public User saveUser(@RequestBody User user) {
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    public User createUser(@RequestBody User user) {
         return userService.saveUser(user);
     }
 
+    // Only SUPER_ADMIN can delete users
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
