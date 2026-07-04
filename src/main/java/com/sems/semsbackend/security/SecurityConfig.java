@@ -39,6 +39,9 @@ public class SecurityConfig {
                         // Allow role creation during development
                         .requestMatchers("/api/roles/**").permitAll()
 
+                        // Allow error endpoint to prevent 403 on internal server errors
+                        .requestMatchers("/error").permitAll()
+
                         // All other APIs require authentication
                         .anyRequest().authenticated()
                 )

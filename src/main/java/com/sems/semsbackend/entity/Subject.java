@@ -1,6 +1,8 @@
 package com.sems.semsbackend.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
@@ -12,21 +14,26 @@ public class Subject {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank(message = "Subject name is required")
     private String subjectName;
 
     @Column(nullable = false, unique = true)
+    @NotBlank(message = "Subject code is required")
     private String subjectCode;
 
     @Column(length = 1000)
     private String description;
 
     @Column(nullable = false)
+    @NotNull(message = "Semester is required")
     private Integer semester;
 
     @Column(nullable = false)
+    @NotNull(message = "Credits are required")
     private Integer credits;
 
     @Column(nullable = false)
+    @NotBlank(message = "Status is required")
     private String status;
 
     @Column(nullable = false)

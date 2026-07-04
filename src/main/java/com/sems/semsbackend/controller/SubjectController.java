@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import jakarta.validation.Valid;
 
 import com.sems.semsbackend.entity.Subject;
 import com.sems.semsbackend.service.SubjectService;
@@ -21,36 +22,45 @@ public class SubjectController {
 
     // View all subjects
     @GetMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR')")
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'ROLE_ROLE_SUPER_ADMIN', 'ROLE_EXAM_CONTROLLER', 'EXAM_CONTROLLER')")
     public List<Subject> getAllSubjects() {
         return subjectService.getAllSubjects();
     }
 
     // View subject by ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR')")
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'ROLE_ROLE_SUPER_ADMIN', 'ROLE_EXAM_CONTROLLER', 'EXAM_CONTROLLER')")
     public Optional<Subject> getSubjectById(@PathVariable Long id) {
         return subjectService.getSubjectById(id);
     }
 
     // Create subject
     @PostMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
-    public Subject createSubject(@RequestBody Subject subject) {
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'ROLE_ROLE_SUPER_ADMIN', 'ROLE_EXAM_CONTROLLER', 'EXAM_CONTROLLER')")
+    public Subject createSubject(@Valid @RequestBody Subject subject) {
         return subjectService.saveSubject(subject);
     }
 
     // Update subject
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
-    public Subject updateSubject(@PathVariable Long id, @RequestBody Subject subject) {
-        subject.setId(id);
-        return subjectService.saveSubject(subject);
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'ROLE_ROLE_SUPER_ADMIN', 'ROLE_EXAM_CONTROLLER', 'EXAM_CONTROLLER')")
+    public Subject updateSubject(@PathVariable Long id, @Valid @RequestBody Subject subject) {
+        Subject existingSubject = subjectService.getSubjectById(id)
+                .orElseThrow(() -> new RuntimeException("Subject not found"));
+        
+        existingSubject.setSubjectName(subject.getSubjectName());
+        existingSubject.setSubjectCode(subject.getSubjectCode());
+        existingSubject.setDescription(subject.getDescription());
+        existingSubject.setSemester(subject.getSemester());
+        existingSubject.setCredits(subject.getCredits());
+        existingSubject.setStatus(subject.getStatus());
+        
+        return subjectService.saveSubject(existingSubject);
     }
 
     // Delete subject
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasAnyAuthority('ROLE_SUPER_ADMIN', 'SUPER_ADMIN', 'ROLE_ROLE_SUPER_ADMIN')")
     public void deleteSubject(@PathVariable Long id) {
         subjectService.deleteSubject(id);
     }
