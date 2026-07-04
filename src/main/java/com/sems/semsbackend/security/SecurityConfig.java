@@ -34,7 +34,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
 
                         // Public APIs
-                        .requestMatchers("/auth/**").permitAll()
+                		.requestMatchers("/auth/**").permitAll()
 
                         // Allow role creation during development
                         .requestMatchers("/api/roles/**").permitAll()

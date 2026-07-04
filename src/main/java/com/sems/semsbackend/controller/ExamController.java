@@ -35,7 +35,7 @@ public class ExamController {
 
     // Create exam
     @PostMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
+//    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
     public Exam createExam(@RequestBody Exam exam) {
         return examService.saveExam(exam);
     }
