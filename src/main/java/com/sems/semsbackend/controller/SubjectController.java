@@ -47,14 +47,14 @@ public class SubjectController {
     public Subject updateSubject(@PathVariable Long id, @Valid @RequestBody Subject subject) {
         Subject existingSubject = subjectService.getSubjectById(id)
                 .orElseThrow(() -> new RuntimeException("Subject not found"));
-        
+
         existingSubject.setSubjectName(subject.getSubjectName());
         existingSubject.setSubjectCode(subject.getSubjectCode());
         existingSubject.setDescription(subject.getDescription());
         existingSubject.setSemester(subject.getSemester());
         existingSubject.setCredits(subject.getCredits());
         existingSubject.setStatus(subject.getStatus());
-        
+
         return subjectService.saveSubject(existingSubject);
     }
 
