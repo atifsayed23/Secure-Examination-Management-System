@@ -59,6 +59,35 @@ public class AttendanceService {
         return attendanceRepository.findById(id);
     }
 
+    public Attendance updateAttendance(Long id, AttendanceRequest request) {
+        Attendance attendance = attendanceRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Attendance not found"));
+
+        if (request.getStudentId() != null) {
+            Student student = studentRepository.findById(request.getStudentId())
+                    .orElseThrow(() -> new RuntimeException("Student not found"));
+            attendance.setStudent(student);
+        }
+
+        if (request.getExamId() != null) {
+            Exam exam = examRepository.findById(request.getExamId())
+                    .orElseThrow(() -> new RuntimeException("Exam not found"));
+            attendance.setExam(exam);
+        }
+
+        if (request.getExamHallId() != null) {
+            ExamHall hall = examHallRepository.findById(request.getExamHallId())
+                    .orElseThrow(() -> new RuntimeException("Exam Hall not found"));
+            attendance.setExamHall(hall);
+        }
+
+        if (request.getAttendanceStatus() != null) {
+            attendance.setAttendanceStatus(request.getAttendanceStatus());
+        }
+
+        return attendanceRepository.save(attendance);
+    }
+
     public void deleteAttendance(Long id) {
         attendanceRepository.deleteById(id);
     }

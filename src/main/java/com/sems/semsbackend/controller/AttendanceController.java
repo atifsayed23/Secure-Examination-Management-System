@@ -37,6 +37,12 @@ public class AttendanceController {
         return attendanceService.createAttendance(request);
     }
 
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'FACULTY')")
+    public Attendance updateAttendance(@PathVariable Long id, @RequestBody AttendanceRequest request) {
+        return attendanceService.updateAttendance(id, request);
+    }
+
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('SUPER_ADMIN')")
     public void deleteAttendance(@PathVariable Long id) {
