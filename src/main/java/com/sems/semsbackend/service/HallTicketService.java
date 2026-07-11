@@ -59,6 +59,24 @@ public class HallTicketService {
                 "Do not carry any unauthorized material into the examination hall."
         ));
 
+        try {
+            com.sems.semsbackend.repository.UserRepository userRepository = org.springframework.web.context.support.WebApplicationContextUtils.getRequiredWebApplicationContext(
+                ((org.springframework.web.context.request.ServletRequestAttributes) org.springframework.web.context.request.RequestContextHolder.getRequestAttributes()).getRequest().getServletContext()
+            ).getBean(com.sems.semsbackend.repository.UserRepository.class);
+            
+            NotificationService notificationService = org.springframework.web.context.support.WebApplicationContextUtils.getRequiredWebApplicationContext(
+                ((org.springframework.web.context.request.ServletRequestAttributes) org.springframework.web.context.request.RequestContextHolder.getRequestAttributes()).getRequest().getServletContext()
+            ).getBean(NotificationService.class);
+            
+            userRepository.findByEmail(student.getEmail()).ifPresent(user -> {
+                notificationService.createNotification(user,
+                    "Hall Ticket Generated",
+                    "Your hall ticket for " + exam.getExamName() + " has been successfully generated.",
+                    "SUCCESS"
+                );
+            });
+        } catch (Exception e) {}
+
         return hallTicket;
     }
 }

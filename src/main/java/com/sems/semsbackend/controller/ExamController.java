@@ -21,14 +21,14 @@ public class ExamController {
 
     // View all exams
     @GetMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR', 'EXAM_CENTER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR', 'FACULTY', 'EXAM_CENTER_ADMIN')")
     public List<Exam> getAllExams() {
         return examService.getAllExams();
     }
 
-    // View exam by ID
+    // Get Exam by ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR', 'EXAM_CENTER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR', 'FACULTY', 'EXAM_CENTER_ADMIN')")
     public Optional<Exam> getExamById(@PathVariable Long id) {
         return examService.getExamById(id);
     }

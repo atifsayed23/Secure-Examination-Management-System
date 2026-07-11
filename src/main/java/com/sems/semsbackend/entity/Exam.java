@@ -25,6 +25,9 @@ public class Exam {
     private LocalDate examDate;
 
     @Column(nullable = false)
+    private java.time.LocalTime startTime;
+
+    @Column(nullable = false)
     private Integer duration;
 
     @Column(nullable = false)
@@ -91,6 +94,14 @@ public class Exam {
 
     public void setExamDate(LocalDate examDate) {
         this.examDate = examDate;
+    }
+
+    public java.time.LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(java.time.LocalTime startTime) {
+        this.startTime = startTime;
     }
 
     public Integer getDuration() {

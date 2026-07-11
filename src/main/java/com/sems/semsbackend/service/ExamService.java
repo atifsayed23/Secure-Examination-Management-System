@@ -13,9 +13,11 @@ import com.sems.semsbackend.repository.ExamRepository;
 public class ExamService {
 
     private final ExamRepository examRepository;
+    private final NotificationService notificationService;
 
-    public ExamService(ExamRepository examRepository) {
+    public ExamService(ExamRepository examRepository, NotificationService notificationService) {
         this.examRepository = examRepository;
+        this.notificationService = notificationService;
     }
 
     // Get all exams
@@ -35,7 +37,15 @@ public class ExamService {
             // New Exam
             exam.setCreatedAt(LocalDateTime.now());
             exam.setUpdatedAt(LocalDateTime.now());
-            return examRepository.save(exam);
+            Exam saved = examRepository.save(exam);
+            try {
+                notificationService.notifyAllStudents(
+                    "Exam Scheduled: " + saved.getExamName(),
+                    "A new exam has been scheduled for " + saved.getExamDate() + ".",
+                    "INFO"
+                );
+            } catch(Exception e) {}
+            return saved;
         }
 
         // Update Existing Exam

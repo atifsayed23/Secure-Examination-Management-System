@@ -21,6 +21,7 @@ public class DataInitializer implements CommandLineRunner {
         createRoleIfNotExists("SUPER_ADMIN");
         createRoleIfNotExists("PAPER_SETTER");
         createRoleIfNotExists("MODERATOR");
+        createRoleIfNotExists("FACULTY");
         createRoleIfNotExists("EXAM_CONTROLLER");
         createRoleIfNotExists("EXAM_CENTER_ADMIN");
     }

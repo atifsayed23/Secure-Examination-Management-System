@@ -13,4 +13,6 @@ public interface SeatingArrangementRepository extends JpaRepository<SeatingArran
     List<SeatingArrangement> findByExamHallId(Long examHallId);
     List<SeatingArrangement> findByStudentId(Long studentId);
     Optional<SeatingArrangement> findByStudentIdAndExamId(Long studentId, Long examId);
+
+    long countByExamId(Long examId);
 }
