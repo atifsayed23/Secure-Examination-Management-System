@@ -40,7 +40,10 @@ public class AuthController {
                         request.getEmail(),
                         request.getPassword()));
 
-        String token = jwtUtil.generateToken(request.getEmail());
+        User user = userService.getUserByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        String token = jwtUtil.generateToken(request.getEmail(), user.getRole().getRoleName());
 
         return new LoginResponse(token);
     }

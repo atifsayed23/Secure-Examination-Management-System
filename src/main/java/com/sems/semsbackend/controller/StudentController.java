@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import com.sems.semsbackend.entity.Student;
@@ -21,14 +22,22 @@ public class StudentController {
 
     // View all students
     @GetMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'FACULTY')")
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();
     }
 
+    // Get currently logged-in student
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyRole('STUDENT', 'ROLE_STUDENT')")
+    public Optional<Student> getMyProfile(Authentication authentication) {
+        String email = authentication.getName();
+        return studentService.getStudentByEmail(email);
+    }
+
     // View student by ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'FACULTY')")
     public Optional<Student> getStudentById(@PathVariable Long id) {
         return studentService.getStudentById(id);
     }

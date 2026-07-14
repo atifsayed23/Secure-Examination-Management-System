@@ -42,7 +42,7 @@ public class ExamHallController {
 
     // Update exam hall
     @PutMapping("/{id}")
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
+    @PreAuthorize("hasRole('SUPER_ADMIN')")
     public ExamHall updateExamHall(@PathVariable Long id, @RequestBody ExamHall examHallDetails) {
         return examHallService.getExamHallById(id).map(existingHall -> {
             existingHall.setHallNumber(examHallDetails.getHallNumber());

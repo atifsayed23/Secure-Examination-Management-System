@@ -1,0 +1,82 @@
+:root {
+  --primary-color: #4F46E5; /* Deep Indigo - conveys confidence and trust */
+  --sidebar-bg: #0F172A; /* Slate 900 - very premium dark */
+  --background-color: #F8FAFC; /* Slate 50 - clean crisp background */
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --accent-color: #0EA5E9; /* Light blue accent */
+}
+
+body {
+  background-color: var(--background-color);
+  font-family: 'Inter', 'Outfit', sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #1e293b;
+  transition: all 0.3s ease;
+}
+
+.sidebar {
+  background-color: var(--sidebar-bg);
+  min-height: 100vh;
+  color: white;
+  transition: width 0.3s ease;
+  box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+}
+
+.sidebar a {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  padding: 12px 20px;
+  display: block;
+  border-radius: 8px;
+  margin: 4px 12px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.sidebar a:hover, .sidebar a.active {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.2), transparent);
+  color: #818CF8;
+  transform: translateX(5px);
+  border-left: 4px solid #818CF8;
+}
+
+.dashboard-card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  padding: 24px;
+  height: 100%;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+.stat-value {
+  font-size: 2.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4F46E5, #0EA5E9);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.btn {
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}

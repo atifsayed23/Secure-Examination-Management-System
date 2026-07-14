@@ -21,27 +21,28 @@ public class ExamController {
 
     // View all exams
     @GetMapping
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR', 'FACULTY', 'EXAM_CENTER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR', 'FACULTY', 'EXAM_CENTER_ADMIN', 'STUDENT')")
     public List<Exam> getAllExams() {
         return examService.getAllExams();
     }
 
     // Get Exam by ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR', 'FACULTY', 'EXAM_CENTER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER', 'PAPER_SETTER', 'MODERATOR', 'FACULTY', 'EXAM_CENTER_ADMIN', 'STUDENT')")
     public Optional<Exam> getExamById(@PathVariable Long id) {
         return examService.getExamById(id);
     }
 
     // Create exam
     @PostMapping
-//    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
     public Exam createExam(@RequestBody Exam exam) {
         return examService.saveExam(exam);
     }
 
     // Update exam
     @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
     public Exam updateExam(@PathVariable Long id, @RequestBody Exam exam) {
         exam.setId(id);
         return examService.saveExam(exam);
@@ -49,7 +50,7 @@ public class ExamController {
 
     // Delete exam
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('SUPER_ADMIN')")
+    @PreAuthorize("hasAnyRole('SUPER_ADMIN', 'EXAM_CONTROLLER')")
     public void deleteExam(@PathVariable Long id) {
         examService.deleteExam(id);
     }
